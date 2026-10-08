@@ -1,1 +1,1 @@
-enum UserStatus { pending, available, installed_active }
+enum OrderStatus { pending, available, installed_active }

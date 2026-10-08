@@ -6,7 +6,6 @@ class UserDto {
   final String name;
   final String email;
   final Role rol;
-  final String passwordHash;
   final DateTime createAt;
   final String? imageUrl;
 
@@ -14,21 +13,23 @@ class UserDto {
     required this.uuid,
     required this.name,
     required this.email,
-    required this.rol,
-    required this.passwordHash,
     required this.createAt,
     required this.imageUrl,
+    required this.rol,
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) {
     return UserDto(
-      uuid: json['uuid'],
-      name: json['name'],
+      uuid: json['user_uuid'],
+      name: json['display'],
       email: json['email'],
-      rol: json['rol'],
-      passwordHash: json['passwordHash'],
-      createAt: DateTime.parse(json['createAt']),
-      imageUrl: json['imageUrl'],
+      createAt: DateTime.parse(json['create_at']),
+      imageUrl: json['perfil_img'],
+      rol: new Role(
+        uuid: json['role_uuid'],
+        name: json['name'],
+        hexColor: json['hexColor'],
+      ),
     );
   }
   User toEntity() {
@@ -37,7 +38,6 @@ class UserDto {
       name: name,
       email: email,
       rol: rol,
-      passwordHash: passwordHash,
       createAt: createAt,
       imageUrl: imageUrl,
     );

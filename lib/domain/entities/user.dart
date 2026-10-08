@@ -1,11 +1,21 @@
+import 'package:servinet_movil/domain/entities/role.dart';
 import 'package:servinet_movil/domain/repository/identifiable.dart';
 
 class User implements Identifiable {
   final String uuid;
   String name;
-  final String email;
+  String email;
   final Role rol;
-  final String passwordHash;
   final DateTime createAt;
-  final String? imageUrl;
+  String? imageUrl;
+
+  User({
+    required this.uuid,
+    required this.name,
+    required this.email,
+    required this.rol,
+
+    required this.createAt,
+    required this.imageUrl,
+  });
 }

@@ -1,0 +1,47 @@
+import 'package:servinet_movil/application/manager/AuthManager.dart';
+import 'package:servinet_movil/domain/entities/user.dart';
+import 'package:servinet_movil/application/dto/auth_dto.dart';
+import 'package:servinet_movil/infraestructure/repositories/AuthRepositoryImpl.dart';
+
+class SessionUseCase {
+  static User? _actualUser;
+  static final isMail = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+
+  static Future<User?> login(String userOrEmail, String pass) async {
+    final user;
+    final mail;
+
+    if (isMail.hasMatch(userOrEmail)) {
+      mail = userOrEmail;
+      user = null;
+    } else {
+      mail = null;
+      user = userOrEmail;
+    }
+
+    final AuthDto authDto = AuthDto(
+      username: user,
+      password: pass,
+      usermail: mail,
+    );
+
+    AuthManager authManager = AuthManager(AuthRepositoryImpl());
+    _actualUser = await authManager.login(authDto);
+
+    return _actualUser;
+  }
+
+  static Future<bool?> logout() {
+    _actualUser = null;
+    AuthManager authManager = AuthManager(AuthRepositoryImpl());
+    return authManager.logout();
+  }
+
+  static Future<User> isActiveSessionUser() async {
+    AuthManager authManager = AuthManager(AuthRepositoryImpl());
+    var tempUser = await authManager.isActiveSession();
+    _actualUser = tempUser;
+    return tempUser;
+    //validar si la api retorno null o el usuario
+  }
+}

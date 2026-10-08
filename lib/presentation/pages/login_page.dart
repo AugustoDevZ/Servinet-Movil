@@ -15,16 +15,22 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final LoginController loginController = LoginController();
+  String errorMessage = "";
 
-  void iniciarSesion() {
-    bool result = loginController.iniciarSesion(
+  Future<void> iniciarSesion() async {
+    bool result = await loginController.iniciarSesion(
       emailController.text,
       passwordController.text,
     );
 
     if (result) {
       context.go('/technicians');
+      return;
     }
+
+    setState(() {
+      errorMessage = 'Una credencial inválida';
+    });
   }
 
   @override
@@ -95,12 +101,19 @@ class _LoginPageState extends State<LoginPage> {
                         const Text(
                           'Accede a tu cuenta',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Color(0xFF6B7280),
                           ),
                         ),
-
+                        Text(
+                          errorMessage,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFFCC3014),
+                          ),
+                        ),
                         const SizedBox(height: 35),
 
                         // CORREO

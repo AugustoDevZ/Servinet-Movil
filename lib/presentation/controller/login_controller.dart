@@ -1,7 +1,30 @@
+import 'package:servinet_movil/application/dto/auth_dto.dart';
+import 'package:servinet_movil/application/usecase/SessionUseCase.dart';
+import 'package:servinet_movil/domain/entities/user.dart';
+
 class LoginController {
-  bool iniciarSesion(String email, String password) {
-    print('Email: $email');
-    print('Password: $password');
+  Future<bool> iniciarSesion(String emailOrUser, String password) async {
+    User? result = await SessionUseCase.login(
+      emailOrUser.trim(),
+      password.trim(),
+    );
+
+    if (result == null) {
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<bool> verifySessionActive(String emailOrUser, String password) async {
+    User? result = await SessionUseCase.login(
+      emailOrUser.trim(),
+      password.trim(),
+    );
+
+    if (result == null) {
+      return false;
+    }
 
     return true;
   }
