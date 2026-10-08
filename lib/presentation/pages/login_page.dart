@@ -1,11 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:servinet_movil/components/backgorundLogin.dart';
-import 'package:servinet_movil/components/textField.dart';
+import 'package:servinet_movil/presentation/components/text_field.dart';
+import 'package:servinet_movil/presentation/controller/login_controller.dart';
+import 'package:servinet_movil/presentation/design/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
-  static const Color primaryColor = Color(0xFF2CA6EF);
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final LoginController loginController = LoginController();
+
+  void iniciarSesion() {
+    bool result = loginController.iniciarSesion(
+      emailController.text,
+      passwordController.text,
+    );
+
+    if (result) {
+      context.go('/technicians');
+    }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +84,7 @@ class HomePage extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: primaryColor,
+                                color: AppColors.primary,
                               ),
                             ),
                           ],
@@ -76,18 +103,21 @@ class HomePage extends StatelessWidget {
 
                         const SizedBox(height: 35),
 
-                        const PrimaryTextField(
+                        // CORREO
+                        PrimaryTextField(
                           hint: 'Ingresa tu correo',
                           isPasswordField: false,
                           iconUse: Icons.email_outlined,
+                          controller: emailController,
                         ),
 
                         const SizedBox(height: 18),
 
-                        const PrimaryTextField(
+                        PrimaryTextField(
                           hint: 'Ingresa tu contraseña',
                           isPasswordField: true,
                           iconUse: Icons.lock_outline,
+                          controller: passwordController,
                         ),
 
                         const SizedBox(height: 12),
@@ -97,20 +127,19 @@ class HomePage extends StatelessWidget {
                           child: TextButton(
                             onPressed: () {},
                             style: TextButton.styleFrom(
-                              foregroundColor: primaryColor,
+                              foregroundColor: AppColors.primary,
                             ),
                             child: const Text('¿Olvidaste tu contraseña?'),
                           ),
                         ),
 
                         const SizedBox(height: 15),
-
                         SizedBox(
                           height: 52,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: iniciarSesion,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: primaryColor,
+                              backgroundColor: AppColors.primary,
                               foregroundColor: Colors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -127,10 +156,10 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
 
-                        const SizedBox(height: 25),
+                        const SizedBox(height: 30),
 
                         const Text(
-                          'Sistema apra técnicos',
+                          'Sistema para técnicos',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12,

@@ -4,12 +4,14 @@ class PrimaryTextField extends StatelessWidget {
   final String hint;
   final bool isPasswordField;
   final IconData iconUse;
+  final TextEditingController controller;
 
   const PrimaryTextField({
     super.key,
     required this.hint,
     required this.isPasswordField,
     required this.iconUse,
+    required this.controller,
   });
 
   @override
@@ -17,6 +19,7 @@ class PrimaryTextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 5.0, left: 3.0, right: 3.0),
       child: TextField(
+        controller: controller,
         obscureText: isPasswordField,
         decoration: InputDecoration(
           hintText: hint,
