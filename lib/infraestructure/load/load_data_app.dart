@@ -31,4 +31,8 @@ class LoadDataApp {
   static Future<String?> getRefreshToken() async {
     return _tokenStorage.getRefreshToken();
   }
+
+  static Future<void> clearTokens() async {
+    _tokenStorage.clear();
+  }
 }

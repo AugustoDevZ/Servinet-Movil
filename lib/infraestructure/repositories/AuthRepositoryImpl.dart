@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:servinet_movil/domain/entities/user.dart';
 import 'package:servinet_movil/domain/exception/ResponseInvalidFormat.dart';
 import 'package:servinet_movil/domain/repository/UserRepository.dart';
@@ -16,7 +17,7 @@ class AuthRepositoryImpl implements UserRepository {
     final accessToken = data['accessToken'];
     final refreshToken = data['refreshToken'];
 
-    LoadDataApp.setTokenStorage(
+    await LoadDataApp.setTokenStorage(
       accessToken: accessToken,
       refreshToken: refreshToken,
     );
@@ -29,7 +30,7 @@ class AuthRepositoryImpl implements UserRepository {
   @override
   Future<User> isActiveSession() async {
     final data = await apiClient.get('/auth');
-
+    debugPrint('-- -- ----- $data');
     if (data == null) {
       throw RersponseInvalidFormat(
         "No se obtuvo el usuario de la api a pesar que tiene sesión activa",

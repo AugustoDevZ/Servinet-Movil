@@ -1,6 +1,9 @@
+import 'package:flutter/rendering.dart';
 import 'package:servinet_movil/application/manager/AuthManager.dart';
 import 'package:servinet_movil/domain/entities/user.dart';
 import 'package:servinet_movil/application/dto/auth_dto.dart';
+import 'package:servinet_movil/domain/exception/ResponseInvalidFormat.dart';
+import 'package:servinet_movil/domain/exception/UnauthorizedException.dart';
 import 'package:servinet_movil/infraestructure/repositories/AuthRepositoryImpl.dart';
 
 class SessionUseCase {
@@ -37,11 +40,20 @@ class SessionUseCase {
     return authManager.logout();
   }
 
-  static Future<User> isActiveSessionUser() async {
-    AuthManager authManager = AuthManager(AuthRepositoryImpl());
-    var tempUser = await authManager.isActiveSession();
-    _actualUser = tempUser;
-    return tempUser;
+  static Future<bool> isActiveSessionUser() async {
+    try {
+      debugPrint('--- 2.1 Entró al UseCase');
+      AuthManager authManager = AuthManager(AuthRepositoryImpl());
+      debugPrint('-- -------- 2.2 Antes de consultar al repositorio');
+      final tempUser = await authManager.isActiveSession();
+      debugPrint(' -- - -- -- 2.3 Usuario recibido: $tempUser');
+      _actualUser = tempUser;
+      return true;
+    } on UnauthorizedException {
+      return false;
+    } on RersponseInvalidFormat {
+      return false;
+    }
     //validar si la api retorno null o el usuario
   }
 }

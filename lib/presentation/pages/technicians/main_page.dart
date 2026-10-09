@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:servinet_movil/application/usecase/SessionUseCase.dart';
 import 'package:servinet_movil/presentation/components/logout_button.dart';
 import 'package:servinet_movil/presentation/components/tecnico_option.dart';
 import 'package:servinet_movil/presentation/design/app_colors.dart';
@@ -12,6 +13,15 @@ class TecnicosPage extends StatefulWidget {
 }
 
 class _TecnicosPageState extends State<TecnicosPage> {
+  Future<void> closeSession() async {
+    bool? result = await SessionUseCase.logout();
+
+    if (result != null && result) {
+      context.go('/login');
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +96,7 @@ class _TecnicosPageState extends State<TecnicosPage> {
               const SizedBox(height: 15),
               LogoutButton(
                 onPressed: () {
-                  context.go('/login');
+                  closeSession();
                 },
               ),
             ],

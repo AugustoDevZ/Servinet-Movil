@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:servinet_movil/application/usecase/SessionUseCase.dart';
+import 'package:servinet_movil/domain/exception/ResponseInvalidFormat.dart';
+import 'package:servinet_movil/domain/exception/UnauthorizedException.dart';
 import 'package:servinet_movil/presentation/components/text_field.dart';
 import 'package:servinet_movil/presentation/controller/login_controller.dart';
 import 'package:servinet_movil/presentation/design/app_colors.dart';
@@ -16,6 +19,33 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final LoginController loginController = LoginController();
   String errorMessage = "";
+
+  @override
+  void initState() {
+    super.initState();
+    verificarSesion();
+  }
+
+  Future<void> verificarSesion() async {
+    if (!mounted) return;
+    debugPrint('-- -- ----- verificando session');
+    try {
+      bool result = await SessionUseCase.isActiveSessionUser();
+      if (result) {
+        context.go('/technicians');
+        return;
+      }
+      debugPrint('-- -- ----- Session vencida o nunca inició sesion');
+    } on RersponseInvalidFormat catch (e) {
+      debugPrint('-- -- ----- Error al procesar tu usuario $e');
+      setState(() {
+        errorMessage = 'Error al procesar tu usuario';
+      });
+      return;
+    } on UnauthorizedException catch (e) {
+      debugPrint(' --- -- -- -- Error al verificar la sesión: $e');
+    }
+  }
 
   Future<void> iniciarSesion() async {
     bool result = await loginController.iniciarSesion(

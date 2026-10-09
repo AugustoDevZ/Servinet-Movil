@@ -14,4 +14,8 @@ class AuthManager {
   Future<bool?> logout() async {
     return repository.logout();
   }
+
+  Future<User> isActiveSession() async {
+    return repository.isActiveSession();
+  }
 }
