@@ -4,7 +4,7 @@ import 'package:servinet_movil/domain/entities/user.dart';
 import 'package:servinet_movil/application/dto/auth_dto.dart';
 import 'package:servinet_movil/domain/exception/ResponseInvalidFormat.dart';
 import 'package:servinet_movil/domain/exception/UnauthorizedException.dart';
-import 'package:servinet_movil/infraestructure/repositories/AuthRepositoryImpl.dart';
+import 'package:servinet_movil/infraestructure/repositories/auth_repository_impl.dart';
 
 class SessionUseCase {
   static User? _actualUser;

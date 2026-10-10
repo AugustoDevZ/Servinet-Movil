@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:servinet_movil/domain/entities/user.dart';
 import 'package:servinet_movil/domain/exception/ResponseInvalidFormat.dart';
-import 'package:servinet_movil/domain/repository/UserRepository.dart';
+import 'package:servinet_movil/domain/repository/user_repository.dart';
 import 'package:servinet_movil/infraestructure/client/api_client.dart';
 import 'package:servinet_movil/application/dto/auth_dto.dart';
 import 'package:servinet_movil/infraestructure/dto/user_dto.dart';

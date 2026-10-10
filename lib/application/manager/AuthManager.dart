@@ -1,6 +1,6 @@
 import 'package:servinet_movil/application/dto/auth_dto.dart';
 import 'package:servinet_movil/domain/entities/user.dart';
-import 'package:servinet_movil/domain/repository/UserRepository.dart';
+import 'package:servinet_movil/domain/repository/user_repository.dart';
 
 class AuthManager {
   final UserRepository repository;
